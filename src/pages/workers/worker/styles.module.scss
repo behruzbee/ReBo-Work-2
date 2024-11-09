@@ -1,0 +1,77 @@
+.workerPage {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.loader, .errorMessage {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.loader {
+  color: #007bff;
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  font-weight: bold;
+}
+
+.workerCard {
+  background-color: #f4f4f9;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: slideIn 0.3s ease-out;
+}
+
+.workerTable, .historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.workerTable td, .historyTable th, .historyTable td {
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.workerTable td {
+  border-bottom: 1px solid #ddd;
+}
+
+.historyTable th, .historyTable td {
+  border: 1px solid #ddd;
+}
+
+.historySection {
+  margin-top: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.historyTable {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.historyRow {
+  transition: background-color 0.3s;
+}
+
+.historyRow:hover {
+  background-color: #e9e9f9;
+}
+
+.noHistory {
+  color: #888;
+  text-align: center;
+  font-size: 1.2rem;
+}
