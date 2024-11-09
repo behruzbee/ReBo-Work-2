@@ -22,11 +22,13 @@ const UpdateWorkerPage = () => {
 
   useEffect(() => {
     if (worker) {
-      setUpdatedWorker(worker) // Set worker data when fetched
-
-      // Generate the QR code when qr_code_text changes
+      setUpdatedWorker(worker); // Set worker data when fetched
+  
+      // Combine the id and qr_code_text to generate the QR code
       if (worker.qr_code_text) {
-        QRCode.toDataURL(worker.qr_code_text, { type: 'image/png' })
+        const qrCodeData = `${worker.id},${worker.qr_code_text}`;
+  
+        QRCode.toDataURL(qrCodeData, { type: 'image/png' })
           .then((url) => {
             setQrCodeDataUrl(url); // Set the generated QR code data URL
           })

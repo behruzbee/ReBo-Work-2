@@ -69,8 +69,11 @@ const CreateWorkerPage = () => {
     const generateQRCode = async () => {
         if (worker.qr_code_text) {
             try {
+                // Combine id and qr_code_text into one string
+                const qrCodeData = `${worker.id},${worker.qr_code_text}`;
+
                 // Generate QR code as a PNG image and draw it onto the canvas
-                const qrCodeDataUrl = await QRCode.toDataURL(worker.qr_code_text, { type: 'png' });
+                const qrCodeDataUrl = await QRCode.toDataURL(qrCodeData, { type: 'png' });
                 const canvas = qrCodeRef.current;
                 if (canvas) {
                     const ctx = canvas.getContext('2d');
