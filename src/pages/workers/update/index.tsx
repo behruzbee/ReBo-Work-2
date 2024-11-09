@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import ReactQRCode from 'react-qr-code'
+import QRCode from 'qrcode' // Importing the qrcode library
 import { useUpdateWorker, useFetchWorkerById, Worker } from '../../../hooks/workers-hooks'
 import styles from './styles.module.scss'
 
@@ -18,13 +18,24 @@ const UpdateWorkerPage = () => {
   const { worker, loading: fetching, error: fetchError } = useFetchWorkerById(id || '')
 
   const [updatedWorker, setUpdatedWorker] = useState<Worker | null>(null)
-  const qrCodeRef = useRef<SVGSVGElement>(null) // Ref to the QR code SVG
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string>('') // State to store the QR code image data URL
 
   useEffect(() => {
     if (worker) {
       setUpdatedWorker(worker) // Set worker data when fetched
+
+      // Generate the QR code when qr_code_text changes
+      if (worker.qr_code_text) {
+        QRCode.toDataURL(worker.qr_code_text, { type: 'image/png' })
+          .then((url) => {
+            setQrCodeDataUrl(url); // Set the generated QR code data URL
+          })
+          .catch((error) => {
+            console.error("Error generating QR code", error);
+          });
+      }
     }
-  }, [worker])
+  }, [worker]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -77,30 +88,11 @@ const UpdateWorkerPage = () => {
 
   // Function to handle downloading the QR code as an image
   const handleDownloadQRCode = () => {
-    if (qrCodeRef.current) {
-      const svg = qrCodeRef.current;
-      const svgData = new XMLSerializer().serializeToString(svg);
-      const canvas = document.createElement('canvas');
-      const img = new Image();
-
-      // Convert the SVG to a canvas element
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext('2d');
-        ctx?.drawImage(img, 0, 0);
-
-        // Convert the canvas to a data URL (PNG format)
-        const dataUrl = canvas.toDataURL('image/png');
-
-        // Create an anchor tag to trigger the download
-        const link = document.createElement('a');
-        link.href = dataUrl;
-        link.download = `${updatedWorker?.firstName}_${updatedWorker?.name}_QRCode.png`;
-        link.click();
-      };
-
-      img.src = 'data:image/svg+xml;base64,' + btoa(svgData); // Convert SVG to base64-encoded string
+    if (qrCodeDataUrl) {
+      const link = document.createElement('a');
+      link.href = qrCodeDataUrl;
+      link.download = `${updatedWorker?.firstName}_${updatedWorker?.name}_QRCode.png`;
+      link.click();
     }
   };
 
@@ -188,15 +180,10 @@ const UpdateWorkerPage = () => {
             required
           />
         </div>
+
         {/* Displaying the QR Code */}
         <div className={styles.qrCodeWrapper} style={{ marginTop: '20px' }}>
-          {updatedWorker?.qr_code_text && (
-            <ReactQRCode
-              value={updatedWorker.qr_code_text}
-              size={128}
-              ref={qrCodeRef} // Attach ref to the QR code component
-            />
-          )}
+          {qrCodeDataUrl && <img src={qrCodeDataUrl} alt="QR Code" width={128} height={128} />}
         </div>
 
         {/* Button to Download QR Code */}
@@ -204,7 +191,7 @@ const UpdateWorkerPage = () => {
           <button
             type="button"
             onClick={handleDownloadQRCode}
-            disabled={!updatedWorker?.qr_code_text}
+            disabled={!qrCodeDataUrl}
             className={styles.submitButton}
           >
             Yuklab olish QR Code

@@ -1,35 +1,34 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAddWorker } from '../../../hooks/workers-hooks';
 import styles from './styles.module.scss';
-import { v4 as uuidv4 } from 'uuid';  // For unique ID generation
-import ReactQRCode from 'react-qr-code';  // Importing the new library
+import { v4 as uuidv4 } from 'uuid';
+import QRCode from 'qrcode'; // Import the qrcode library
 import { useNavigate } from 'react-router-dom';
 
 const CreateWorkerPage = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [worker, setWorker] = useState({
-        id: uuidv4(),  // Generate a unique ID
+        id: uuidv4(),
         name: '',
         firstName: '',
-        age: 0,  // Ensure age is initialized as a number
+        age: 0,
         position: '',
         monthly_salary: '',
         monthly_worked_minutes: 0,
         qr_code_text: '',
         hours_to_work: '12',
-        is_working: false  // Added default value for hours_to_work
+        is_working: false
     });
 
     const { addWorker, loading: addingWorker, error } = useAddWorker();
 
-    const qrCodeRef = useRef<SVGSVGElement | null>(null); // Reference for the QR code SVG
+    const qrCodeRef = useRef<HTMLCanvasElement | null>(null); // Reference for the QR code canvas
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
 
-        // Ensure age is treated as a number
         const newValue = name === 'age' || name === 'monthly_salary' || name === 'hours_to_work'
-            ? Number(value) || 0  // Convert value to number, fallback to 0 if invalid
+            ? Number(value) || 0
             : value;
 
         setWorker((prevWorker) => ({
@@ -41,9 +40,9 @@ const CreateWorkerPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await addWorker(worker);
-        navigate('/workers')
+        navigate('/workers');
         setWorker({
-            id: uuidv4(), // Reset ID for the new worker
+            id: uuidv4(),
             name: '',
             firstName: '',
             age: 0,
@@ -58,34 +57,39 @@ const CreateWorkerPage = () => {
 
     const handleDownloadQRCode = () => {
         if (qrCodeRef.current) {
-            const svg = qrCodeRef.current;
+            const canvas = qrCodeRef.current;
+            const pngDataUrl = canvas.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.href = pngDataUrl;
+            link.download = `${worker.qr_code_text}.png`;
+            link.click();
+        }
+    };
 
-            // Create a canvas element
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-
-            if (ctx) {
-                const svgData = new XMLSerializer().serializeToString(svg);
-                const img = new Image();
-                img.onload = () => {
-                    // Draw the image (QR code) on the canvas
-                    canvas.width = img.width;
-                    canvas.height = img.height;
-                    ctx.drawImage(img, 0, 0);
-
-                    // Convert canvas to PNG and trigger download
-                    const pngDataUrl = canvas.toDataURL('image/png');
-                    const link = document.createElement('a');
-                    link.href = pngDataUrl;
-                    link.download = `${worker.qr_code_text}.png`; // File name is the QR code text
-                    link.click();
-                };
-
-                // Convert the SVG string to a data URL and load it as an image
-                img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+    const generateQRCode = async () => {
+        if (worker.qr_code_text) {
+            try {
+                // Generate QR code as a PNG image and draw it onto the canvas
+                const qrCodeDataUrl = await QRCode.toDataURL(worker.qr_code_text, { type: 'png' });
+                const canvas = qrCodeRef.current;
+                if (canvas) {
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    img.src = qrCodeDataUrl;
+                    img.onload = () => {
+                        ctx?.drawImage(img, 0, 0);
+                    };
+                }
+            } catch (error) {
+                console.error('Error generating QR code:', error);
             }
         }
     };
+
+    // Re-generate the QR code every time the qr_code_text changes
+    useEffect(() => {
+        generateQRCode();
+    }, [worker.qr_code_text]);
 
     return (
         <div className={styles.createWorkerWrapper}>
@@ -168,18 +172,12 @@ const CreateWorkerPage = () => {
                         required
                     />
                 </div>
-                {/* Displaying the QR Code */}
+                {/* QR Code Canvas */}
                 <div className={styles.qrCodeWrapper}>
-                    {worker.qr_code_text && (
-                        <ReactQRCode
-                            value={worker.qr_code_text}
-                            size={128}
-                            ref={qrCodeRef}
-                        />
-                    )}
+                    <canvas ref={qrCodeRef} width="128" height="128" />
                 </div>
 
-                {/* Button to download the QR code */}
+                {/* Button to download QR Code */}
                 <div className={styles.formGroup}>
                     <button type="button" onClick={handleDownloadQRCode}>
                         Yuklab olish QR Code

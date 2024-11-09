@@ -142,73 +142,10 @@ button:disabled {
 }
 
 .closeBtn {
+  margin-top: 20px;
   background-color: #f44336;
 }
 
 .closeBtn:hover {
   background-color: #d32f2f;
-}
-
-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin: 10px 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  text-transform: uppercase;
-}
-
-/* Hover and active states for the button */
-button:hover {
-  background-color: #45a049;
-  transform: translateY(-2px); /* Slight lift on hover */
-}
-
-button:active {
-  background-color: #388e3c;
-  transform: translateY(1px); /* Button pressed effect */
-}
-
-/* Disabled state for buttons */
-button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-  transform: none; /* Disable transform effect when disabled */
-}
-
-/* Specific button styles for different types */
-.openModalButton {
-  background-color: #4caf50;
-}
-
-.openModalButton:hover {
-  background-color: #45a049;
-}
-
-.submitBtn {
-  background-color: #2196f3;
-  width: 100%; /* Full-width submit button */
-}
-
-.submitBtn:hover {
-  background-color: #1976d2;
-}
-
-.closeBtn {
-  background-color: #f44336;
-  width: 100%;
-}
-
-.closeBtn:hover {
-  background-color: #d32f2f;
-}
-
-.closeBtn:focus {
-  outline: none;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }

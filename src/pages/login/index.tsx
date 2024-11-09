@@ -44,7 +44,7 @@ const LoginPage = () => {
                     />
                 </label>
                 {error && <div className={styles.errorMessage}>{error}</div>}
-                <button onClick={handleLogin}>Kirish</button>
+                <button className={styles.button} onClick={handleLogin}>Kirish</button>
             </div>
         </div>
     );
