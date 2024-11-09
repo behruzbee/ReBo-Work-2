@@ -17,6 +17,9 @@ const Header = () => {
                 <li className={styles.listItem}>
                     <NavLink to="/histories" className={styles.nav_link}>ISTORIYA</NavLink>
                 </li>
+                <li className={styles.listItem}>
+                    <NavLink to="/penalties" className={styles.nav_link}>JARIMALAR</NavLink>
+                </li>
             </ul>
         </div>
     )

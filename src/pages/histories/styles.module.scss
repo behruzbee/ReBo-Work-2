@@ -1,105 +1,75 @@
-/* Основной контейнер для страницы */
 .historiesPageWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px;
   max-width: 1200px;
   margin: 0 auto;
-  font-family: 'Arial', sans-serif;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Заголовок страницы */
 .pageTitle {
   font-size: 2rem;
-  margin-bottom: 20px;
+  font-weight: bold;
   color: #333;
-  text-align: center;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  margin-bottom: 20px;
 }
 
-/* Стиль для сообщений об ошибках */
-.error {
-  color: red;
+.openModalButton {
+  background-color: #4caf50;
+  color: white;
   font-size: 1rem;
-  margin-top: 10px;
-  text-align: center;
-  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 20px;
 }
 
-/* Стиль для текста "Загрузка" */
+.openModalButton:hover {
+  background-color: #45a049;
+}
+
 .loading {
   font-size: 1.2rem;
-  color: #666;
-  text-align: center;
-  margin-top: 20px;
+  color: #999;
 }
 
-/* Стили для таблицы */
+.error {
+  color: #f44336;
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
 .historyTable {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для ячеек таблицы */
 .historyTable th,
 .historyTable td {
-  padding: 15px;
-  border: 1px solid #ddd;
+  padding: 12px;
   text-align: left;
-  font-size: 1rem;
+  border: 1px solid #ddd;
 }
 
 .historyTable th {
-  background-color: #007bff;
-  color: white;
+  background-color: #f2f2f2;
   font-weight: bold;
-  text-transform: uppercase;
 }
 
-.historyTable tr:nth-child(even) {
-  background-color: #f4f4f4;
-}
-
-.historyTable tr:hover {
-  background-color: #f1f1f1;
-  transform: scale(1.02);
-  transition: transform 0.2s ease-in-out;
-}
-
-/* Кнопка для открытия модального окна */
-.openModalButton {
-  padding: 12px 20px;
-  background-color: #007bff;
-  color: white;
+.historyTable td {
   font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 20px;
-  display: block;
-  width: 200px;
-  margin-left: auto;
-  margin-right: auto;
 }
 
-.openModalButton:hover {
-  background-color: #0056b3;
-  transform: scale(1.05);
-}
-
-/* Модальное окно */
 .modal {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -108,113 +78,137 @@
 }
 
 .modalContent {
-  background: white;
+  background-color: white;
   padding: 30px;
   border-radius: 8px;
-  width: 450px;
-  max-width: 90%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  animation: modalIn 0.4s ease-out;
-}
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  max-width: 500px;
+  width: 100%;
 }
 
 .modalContent h3 {
   font-size: 1.5rem;
+  color: #333;
   margin-bottom: 20px;
-  color: #333;
-  text-align: center;
 }
 
-/* Стиль для формы в модальном окне */
-.modalContent form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.formGroup {
+  margin-bottom: 20px;
 }
 
-/* Стили для инпутов */
-.modalContent input {
-  padding: 12px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+label {
   font-size: 1rem;
-  color: #333;
-  transition: border-color 0.3s ease;
-  width: 100%;
-  max-width: 350px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  display: block;
 }
 
-.modalContent input:focus {
-  border-color: #007bff;
+input[type='text'],
+input[type='datetime-local'],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+input[type='text']:focus,
+input[type='datetime-local']:focus,
+select:focus {
+  border-color: #4caf50;
   outline: none;
 }
 
-/* Стили для кнопок в модальном окне */
-.modalContent button[type='submit'],
-.modalContent button[type='button'] {
-  padding: 12px;
-  background-color: #28a745;
+button {
+  background-color: #4caf50;
   color: white;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.closeBtn {
+  background-color: #f44336;
+}
+
+.closeBtn:hover {
+  background-color: #d32f2f;
+}
+
+button {
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
   font-size: 1rem;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin-top: 10px;
-  width: 100%;
-  max-width: 350px;
+  margin: 10px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
 }
 
-.modalContent button[type='submit']:hover,
-.modalContent button[type='button']:hover {
-  background-color: #218838;
-  transform: scale(1.05);
+/* Hover and active states for the button */
+button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px); /* Slight lift on hover */
 }
 
-.modalContent button[type='button'] {
-  background-color: #dc3545;
+button:active {
+  background-color: #388e3c;
+  transform: translateY(1px); /* Button pressed effect */
 }
 
-.modalContent button[type='button']:hover {
-  background-color: #c82333;
-}
-
-/* Стили для отключенных кнопок */
-button[disabled] {
+/* Disabled state for buttons */
+button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+  transform: none; /* Disable transform effect when disabled */
 }
 
-button:focus {
+/* Specific button styles for different types */
+.openModalButton {
+  background-color: #4caf50;
+}
+
+.openModalButton:hover {
+  background-color: #45a049;
+}
+
+.submitBtn {
+  background-color: #2196f3;
+  width: 100%; /* Full-width submit button */
+}
+
+.submitBtn:hover {
+  background-color: #1976d2;
+}
+
+.closeBtn {
+  background-color: #f44336;
+  width: 100%;
+}
+
+.closeBtn:hover {
+  background-color: #d32f2f;
+}
+
+.closeBtn:focus {
   outline: none;
-}
-
-/* Дополнительный стиль для уведомлений */
-.Toastify__toast {
-  font-size: 1rem;
-  font-family: 'Arial', sans-serif;
-  border-radius: 8px;
-  padding: 10px 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.Toastify__toast--success {
-  background-color: #28a745;
-  color: white;
-}
-
-.Toastify__toast--error {
-  background-color: #dc3545;
-  color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }

@@ -4,12 +4,14 @@ import { format } from 'date-fns';
 import styles from './styles.module.scss';
 import instance from '../../api/api-instance';
 import { toast } from 'react-toastify';
+import { useFetchWorkers } from '../../hooks/workers-hooks'; // Импортируем хук для работников
 
 const HistoriesPage = () => {
     const { histories, loading, error } = useFetchHistories();
+    const { workers, loading: workersLoading } = useFetchWorkers(); // Removed workersError
 
     const [workerNames, setWorkerNames] = useState<Record<string, string>>({});
-    const [loadingWorkerNames, setLoadingWorkerNames] = useState(false);
+    const [, setLoadingWorkerNames] = useState(false);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [workerId, setWorkerId] = useState('');
@@ -59,6 +61,7 @@ const HistoriesPage = () => {
             await instance.post('/histories', newHistory);
             toast.success('History added successfully!'); // Успешное уведомление
             setIsModalOpen(false); // Закрываем модальное окно после успешной отправки
+            window.location.reload()
         } catch (error) {
             toast.error('Failed to add history. Please try again.'); // Ошибка
             console.error('Failed to add history:', error);
@@ -77,8 +80,8 @@ const HistoriesPage = () => {
                 Yengi istoriya ochish
             </button>
 
-            {loadingWorkerNames ? (
-                <p className={styles.loading}>Ishchi nomi yuklanmoqda...</p>
+            {workersLoading ? (
+                <p className={styles.loading}>Ishchilar yuklanmoqda...</p>
             ) : (
                 <table className={styles.historyTable}>
                     <thead>
@@ -107,41 +110,74 @@ const HistoriesPage = () => {
                     <div className={styles.modalContent}>
                         <h3>Yengi Istoriya qo'shish</h3>
                         <form onSubmit={handleAddHistory}>
-                            <input
-                                type="text"
-                                placeholder="Worker ID"
-                                value={workerId}
-                                onChange={(e) => setWorkerId(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="QR Code Text"
-                                value={qrCodeText}
-                                onChange={(e) => setQrCodeText(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="text"
-                                placeholder="Work Place Name"
-                                value={workPlaceName}
-                                onChange={(e) => setWorkPlaceName(e.target.value)}
-                                required
-                            />
-                            <input
-                                type="datetime-local"
-                                value={scanTime}
-                                onChange={(e) => setScanTime(e.target.value)}
-                            />
-                            <button type="submit">Yengi Istoriya qo'shish</button>
-                            <button type="button" onClick={() => setIsModalOpen(false)}>
+                            <div className={styles.formGroup}>
+                                <label htmlFor="worker_id">Ishchini tanlang</label>
+                                <select
+                                    id="worker_id"
+                                    name="worker_id"
+                                    value={workerId}
+                                    onChange={(e) => setWorkerId(e.target.value)}
+                                    required
+                                    disabled={workersLoading}
+                                    className={styles.selectField}
+                                >
+                                    <option value="" disabled>Ishchilar</option>
+                                    {workers.map((worker) => (
+                                        <option key={worker.id} value={worker.id}>
+                                            {worker.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label htmlFor="qr_code_text">QR Code</label>
+                                <input
+                                    type="text"
+                                    id="qr_code_text"
+                                    name="qr_code_text"
+                                    value={qrCodeText}
+                                    onChange={(e) => setQrCodeText(e.target.value)}
+                                    required
+                                    className={styles.inputField}
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label htmlFor="work_place_name">Ishlavotgan joyi</label>
+                                <input
+                                    type="text"
+                                    id="work_place_name"
+                                    name="work_place_name"
+                                    value={workPlaceName}
+                                    onChange={(e) => setWorkPlaceName(e.target.value)}
+                                    required
+                                    className={styles.inputField}
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label htmlFor="scan_time">Skanerlangan Vaqt</label>
+                                <input
+                                    type="datetime-local"
+                                    id="scan_time"
+                                    name="scan_time"
+                                    value={scanTime}
+                                    onChange={(e) => setScanTime(e.target.value)}
+                                    className={styles.inputField}
+                                />
+                            </div>
+
+                            <button type="submit" className={`${styles.submitBtn} ${workersLoading ? styles.disabled : ''}`} disabled={workersLoading}>
+                                Istoriya qo'shmoq
+                            </button>
+                            <button type="button" onClick={() => setIsModalOpen(false)} className={styles.closeBtn}>
                                 Yopish
                             </button>
                         </form>
                     </div>
                 </div>
             )}
-
         </div>
     );
 };

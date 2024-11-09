@@ -1,19 +1,21 @@
-import { useParams } from 'react-router-dom';
 import { useFetchWorkerById } from '../../../hooks/workers-hooks';
 import { useFetchWorkerHistories } from '../../../hooks/histories-hooks';
+import { useFetchPenalties } from '../../../hooks/penalty-hooks';  // Import the penalties hook
 import styles from './styles.module.scss';
+import { useParams } from 'react-router-dom';
 
 const WorkerPage = () => {
     const { id } = useParams<{ id: string }>();
     const { worker, loading: workerLoading, error: workerError } = useFetchWorkerById(id || '');
     const { histories, loading: historiesLoading, error: historiesError } = useFetchWorkerHistories(id || '');
+    const { penalties, loading: penaltiesLoading, error: penaltiesError } = useFetchPenalties(id);  // Fetch penalties
 
-    if (workerLoading || historiesLoading) {
+    if (workerLoading || historiesLoading || penaltiesLoading) {
         return <div className={styles.loader}>Loading...</div>;
     }
 
-    if (workerError || historiesError) {
-        return <div className={styles.errorMessage}>Error: {workerError || historiesError}</div>;
+    if (workerError) {
+        return <div className={styles.errorMessage}>Error: {workerError || historiesError || penaltiesError}</div>;
     }
 
     return (
@@ -61,6 +63,33 @@ const WorkerPage = () => {
                 </div>
             ) : (
                 <div className={styles.noHistory}>No work history available for this worker.</div>
+            )}
+
+            {/* Display penalties if available */}
+            {penalties && penalties.length > 0 ? (
+                <div className={styles.penaltiesSection}>
+                    <h2>Shtraflar</h2>
+                    <table className={styles.penaltiesTable}>
+                        <thead>
+                            <tr>
+                                <th>Izoh</th>
+                                <th>Summa</th>
+                                <th>Vaqt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {penalties.map((penalty) => (
+                                <tr key={penalty.id} className={styles.penaltyRow}>
+                                    <td>{penalty.description}</td>
+                                    <td>{penalty.amount} so'm</td>
+                                    <td>{new Date(penalty.time).toLocaleString()}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ) : (
+                <div className={styles.noPenalties}>No penalties found for this worker.</div>
             )}
         </div>
     );

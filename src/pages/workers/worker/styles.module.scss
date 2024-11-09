@@ -33,12 +33,12 @@
   animation: slideIn 0.3s ease-out;
 }
 
-.workerTable, .historyTable {
+.workerTable, .historyTable, .penaltiesTable {
   width: 100%;
   border-collapse: collapse;
 }
 
-.workerTable td, .historyTable th, .historyTable td {
+.workerTable td, .historyTable th, .historyTable td, .penaltiesTable td, .penaltiesTable th {
   padding: 0.8rem;
   text-align: left;
 }
@@ -47,11 +47,11 @@
   border-bottom: 1px solid #ddd;
 }
 
-.historyTable th, .historyTable td {
+.historyTable th, .historyTable td, .penaltiesTable th, .penaltiesTable td {
   border: 1px solid #ddd;
 }
 
-.historySection {
+.historySection, .penaltiesSection {
   margin-top: 2rem;
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -62,16 +62,51 @@
   overflow: hidden;
 }
 
-.historyRow {
+.penaltiesTable {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.historyRow, .penaltyRow {
   transition: background-color 0.3s;
 }
 
-.historyRow:hover {
+.historyRow:hover, .penaltyRow:hover {
   background-color: #e9e9f9;
 }
 
-.noHistory {
+.noHistory, .noPenalties {
   color: #888;
   text-align: center;
   font-size: 1.2rem;
+}
+
+.penaltyRow {
+  color: #ff4d4f;
+}
+
+.penaltyRow td {
+  border-bottom: 1px solid #ddd;
+}
+
+.noPenalties {
+  color: #888;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.penaltiesSection h2 {
+  color: #ff4d4f;
+  margin-bottom: 1rem;
+}
+
+.penaltiesTable th {
+  background-color: #f1f1f1;
+  color: #333;
+  text-align: left;
+}
+
+.penaltiesTable td {
+  color: #555;
 }

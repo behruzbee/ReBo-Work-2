@@ -3,8 +3,10 @@ import { useAddWorker } from '../../../hooks/workers-hooks';
 import styles from './styles.module.scss';
 import { v4 as uuidv4 } from 'uuid';  // For unique ID generation
 import ReactQRCode from 'react-qr-code';  // Importing the new library
+import { useNavigate } from 'react-router-dom';
 
 const CreateWorkerPage = () => {
+    const navigate = useNavigate()
     const [worker, setWorker] = useState({
         id: uuidv4(),  // Generate a unique ID
         name: '',
@@ -39,6 +41,7 @@ const CreateWorkerPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await addWorker(worker);
+        navigate('/workers')
         setWorker({
             id: uuidv4(), // Reset ID for the new worker
             name: '',
@@ -86,7 +89,7 @@ const CreateWorkerPage = () => {
 
     return (
         <div className={styles.createWorkerWrapper}>
-            <h1>Create New Worker</h1>
+            <h1>Yengi ishchi qo'shish</h1>
             <form onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                     <label htmlFor="firstName">Ism</label>
@@ -185,7 +188,7 @@ const CreateWorkerPage = () => {
 
                 <div className={styles.formGroup}>
                     <button type="submit" disabled={addingWorker}>
-                        {addingWorker ? 'Adding Worker...' : 'Add Worker'}
+                        {addingWorker ? 'Qo\'shilmoqda...' : 'Qo\'shish'}
                     </button>
                 </div>
             </form>
