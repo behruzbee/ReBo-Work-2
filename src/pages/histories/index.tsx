@@ -61,7 +61,6 @@ const HistoriesPage = () => {
             await instance.post('/histories', newHistory);
             toast.success('History added successfully!'); // Успешное уведомление
             setIsModalOpen(false); // Закрываем модальное окно после успешной отправки
-            window.location.reload()
         } catch (error) {
             toast.error('Failed to add history. Please try again.'); // Ошибка
             console.error('Failed to add history:', error);
