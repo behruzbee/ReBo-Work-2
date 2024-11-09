@@ -1,5 +1,5 @@
+import { useFetchWorkers } from '../../hooks/workers-hooks';
 import styles from './styles.module.scss';
-import { useFetchWorkers } from '../../../hooks/workers-hooks';
 
 const WorkersPublicPage = () => {
   const { workers, loading: loadingWorkers, error: fetchError } = useFetchWorkers();
@@ -16,7 +16,6 @@ const WorkersPublicPage = () => {
               <th>To'liq I.F</th>
               <th>Lavozim</th>
               <th>Ish xolati</th>
-              <th>Harakatlar</th>
             </tr>
           </thead>
           <tbody>

@@ -10,7 +10,7 @@ import WorkerPage from "../pages/workers/worker"
 import PenaltiesPage from "../pages/penalties"
 import PenaltyCreatePage from "../pages/penalties/create"
 import LoginPage from "../pages/login"
-import WorkersPublicPage from "../pages/workers/worker/public"
+import WorkersPublicPage from "../pages/workers/public"
 
 const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
     const isAuthenticated = sessionStorage.getItem('auth');

@@ -45,6 +45,7 @@ const LoginPage = () => {
                 </label>
                 {error && <div className={styles.errorMessage}>{error}</div>}
                 <button className={styles.button} onClick={handleLogin}>Kirish</button>
+                <button className={styles.buttonWorker} onClick={() => navigate('/workers/public')}>Ishchilar ro'yxati</button>
             </div>
         </div>
     );
