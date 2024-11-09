@@ -10,6 +10,7 @@ import WorkerPage from "../pages/workers/worker"
 import PenaltiesPage from "../pages/penalties"
 import PenaltyCreatePage from "../pages/penalties/create"
 import LoginPage from "../pages/login"
+import WorkersPublicPage from "../pages/workers/worker/public"
 
 const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
     const isAuthenticated = sessionStorage.getItem('auth');
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <LoginPage />
+            },
+            {
+                path: '/workers/public',
+                element: <WorkersPublicPage />
             },
         ]
     }
