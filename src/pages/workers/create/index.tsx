@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useAddWorker } from '../../../hooks/workers-hooks';
 import styles from './styles.module.scss';
 import { v4 as uuidv4 } from 'uuid';
-import QRCode from 'qrcode'; // Import the qrcode library
+import QRCode from 'qrcode'; // Import the QRCode library
 import { useNavigate } from 'react-router-dom';
 
 const CreateWorkerPage = () => {
@@ -72,16 +72,19 @@ const CreateWorkerPage = () => {
                 // Combine id and qr_code_text into one string
                 const qrCodeData = `${worker.id},${worker.qr_code_text}`;
 
-                // Generate QR code as a PNG image and draw it onto the canvas
-                const qrCodeDataUrl = await QRCode.toDataURL(qrCodeData, { type: 'png' });
+                // Generate QR code as a PNG image with specified dimensions
+                const qrCodeDataUrl = await QRCode.toDataURL(qrCodeData, { width: 128, height: 128 });
                 const canvas = qrCodeRef.current;
                 if (canvas) {
                     const ctx = canvas.getContext('2d');
-                    const img = new Image();
-                    img.src = qrCodeDataUrl;
-                    img.onload = () => {
-                        ctx?.drawImage(img, 0, 0);
-                    };
+                    if (ctx) {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous QR code
+                        const img = new Image();
+                        img.src = qrCodeDataUrl;
+                        img.onload = () => {
+                            ctx.drawImage(img, 0, 0, 128, 128); // Draw QR code with specified size
+                        };
+                    }
                 }
             } catch (error) {
                 console.error('Error generating QR code:', error);

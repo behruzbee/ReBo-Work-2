@@ -11,7 +11,7 @@ const LoginPage = () => {
     const handleLogin = () => {
         // Hardcoded credentials for simplicity
         const hardcodedUsername = 'admin';
-        const hardcodedPassword = 'admin';
+        const hardcodedPassword = 'rebo';
 
         if (username === hardcodedUsername && password === hardcodedPassword) {
             // On successful login, navigate to the home page
@@ -46,6 +46,7 @@ const LoginPage = () => {
                 {error && <div className={styles.errorMessage}>{error}</div>}
                 <button className={styles.button} onClick={handleLogin}>Kirish</button>
                 <button className={styles.buttonWorker} onClick={() => navigate('/workers/public')}>Ishchilar ro'yxati</button>
+                <button className={styles.buttonPenalties} onClick={() => navigate('/penalties/public')}>Jarimalar ro'yxati</button>
             </div>
         </div>
     );
