@@ -1,0 +1,138 @@
+.container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.addTaskButton {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.addTaskButton:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+.error,
+.loading {
+  color: #ff4d4f;
+  text-align: center;
+}
+
+.taskListTitle {
+  font-size: 1.5rem;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.noTasks {
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.taskTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.taskTable th,
+.taskTable td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.taskTable th {
+  background-color: #f8f9fa;
+}
+
+.taskRow {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.taskRow:hover {
+  background-color: #f1f1f1;
+}
+
+.taskRow.completed {
+  background-color: #d4edda;
+  box-shadow: 0 0 10px rgba(40, 167, 69, 0.5); // Light green glow for completed tasks
+}
+
+.taskRow.inProgress {
+  background-color: #fff3cd;
+  box-shadow: 0 0 10px rgba(255, 193, 7, 0.5); // Light yellow glow for in-progress tasks
+}
+
+.taskRow.overdue {
+  background-color: #f8d7da;
+  box-shadow: 0 0 10px rgba(220, 53, 69, 0.5); // Red glow for overdue tasks
+}
+
+.edit {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right: 10px;
+}
+
+.edit:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+.deleteButton {
+  background-color: #dc3545;
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.deleteButton:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+.deleteButton:hover:not(:disabled) {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

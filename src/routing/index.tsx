@@ -12,6 +12,9 @@ import PenaltyCreatePage from "../pages/penalties/create"
 import LoginPage from "../pages/login"
 import WorkersPublicPage from "../pages/workers/public"
 import PenaltiesPublicPage from "../pages/penalties/public"
+import TaskPage from "../pages/task"
+import TaskCreatePage from "../pages/task/create"
+import TaskEditPage from "../pages/task/edit"
 
 const ProtectedRoute = ({ element }: { element: JSX.Element }) => {
     const isAuthenticated = sessionStorage.getItem('auth');
@@ -54,6 +57,18 @@ const router = createBrowserRouter([
             {
                 path: '/penalties/create',
                 element: <ProtectedRoute element={<PenaltyCreatePage />} />
+            },
+            {
+                path: '/tasks',
+                element: <ProtectedRoute element={<TaskPage />} />
+            },
+            {
+                path: '/tasks/create',
+                element: <ProtectedRoute element={<TaskCreatePage />} />
+            },
+            {
+                path: '/tasks/edit/:id',
+                element: <ProtectedRoute element={<TaskEditPage />} />
             },
             {
                 path: '/login',
