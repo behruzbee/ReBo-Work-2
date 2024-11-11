@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
-import styles from './styles.module.scss'; // Assuming you have SCSS styles
 import { useNavigate } from 'react-router-dom';
+import styles from './styles.module.scss'; // Assuming you have SCSS styles
+import { useAddTask } from '../../../hooks/task-hooks'; // Import the useAddTask hook
 
 const TaskCreatePage = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [newTask, setNewTask] = useState({
         description: '',
         store_name: 'VASMOY', // Default store name
     });
-    const [isLoading, setIsLoading] = useState(false); // For loading state
+    const { addTask, loading, error } = useAddTask(); // Destructure the hook to get addTask, loading, and error states
 
     // Handle form input changes
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -27,28 +28,25 @@ const TaskCreatePage = () => {
             return;
         }
 
-        setIsLoading(true);
         try {
-            // Replace this with actual API call to create the task
-            console.log('Creating task:', newTask);
-            
-            // Simulate success response
-            toast.success('Task created successfully!');
-            setNewTask({ description: '', store_name: 'VASMOY' }); // Reset the form
-            navigate('/tasks')
+            const createdTask = await addTask(newTask); // Call addTask to create a new task
+            if (createdTask) {
+                toast.success('Task created successfully!');
+                setNewTask({ description: '', store_name: 'VASMOY' }); // Reset the form after creation
+                navigate('/tasks'); // Navigate back to tasks list
+            }
         } catch (error) {
-            toast.error('Failed to create task.');
-        } finally {
-            setIsLoading(false);
+            // Error is already handled by the hook
         }
     };
 
     return (
         <div className={styles.container}>
-            <h1>Create New Task</h1>
+            <h1>YANGI VAZIFA QO'SHISH</h1>
             <div className={styles.formContainer}>
+                {/* Task Description Input */}
                 <div className={styles.inputGroup}>
-                    <label htmlFor="description">Task Description</label>
+                    <label htmlFor="description">Vazifa</label>
                     <input
                         id="description"
                         type="text"
@@ -59,8 +57,9 @@ const TaskCreatePage = () => {
                     />
                 </div>
 
+                {/* Store Name Select Dropdown */}
                 <div className={styles.inputGroup}>
-                    <label htmlFor="store_name">Store Name</label>
+                    <label htmlFor="store_name">Qayerga tayinlansin</label>
                     <select
                         id="store_name"
                         name="store_name"
@@ -74,13 +73,17 @@ const TaskCreatePage = () => {
                     </select>
                 </div>
 
+                {/* Submit Button */}
                 <button
                     onClick={handleCreateTask}
-                    disabled={isLoading}
+                    disabled={loading} // Disable the button when loading
                     className={styles.submitButton}
                 >
-                    {isLoading ? 'Creating...' : 'Create Task'}
+                    {loading ? 'Qo\'shilmoqda...' : 'Q\'shish'} {/* Show loading state */}
                 </button>
+
+                {/* Error Message */}
+                {error && <p className={styles.error}>{error}</p>} {/* Show error message if any */}
             </div>
         </div>
     );
