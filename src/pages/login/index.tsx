@@ -47,6 +47,7 @@ const LoginPage = () => {
                 <button className={styles.button} onClick={handleLogin}>Kirish</button>
                 <button className={styles.buttonWorker} onClick={() => navigate('/workers/public')}>Ishchilar ro'yxati</button>
                 <button className={styles.buttonPenalties} onClick={() => navigate('/penalties/public')}>Jarimalar ro'yxati</button>
+                <button className={styles.buttonTask}>Vazifalar ro'yxati (tez kunda)</button>
             </div>
         </div>
     );

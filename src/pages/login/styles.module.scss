@@ -1,5 +1,5 @@
 .loginPage {
-    margin-top: 20px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,8 +63,12 @@ input:focus {
   background-color: #e74c3c;
 }
 
-.buttonPenalties{ 
-  margin: 20px 0 0 10px;
+.buttonPenalties {
+  background-color: #e74c3c;
+}
+
+.buttonTask {
+  margin: 20px 0;
   background-color: #e74c3c;
 }
 
