@@ -79,7 +79,7 @@ const TaskCreatePage = () => {
                     disabled={loading} // Disable the button when loading
                     className={styles.submitButton}
                 >
-                    {loading ? 'Qo\'shilmoqda...' : 'Q\'shish'} {/* Show loading state */}
+                    {loading ? 'Qo\'shilmoqda...' : 'Qo\'shish'} {/* Show loading state */}
                 </button>
 
                 {/* Error Message */}
