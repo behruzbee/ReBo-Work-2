@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useFetchPenalties, Penalty } from '../../hooks/penalty-hooks'
 import styles from './styles.module.scss'
 import { useFetchWorkers } from '../../hooks/workers-hooks' // Importing the workers hook
+import { format } from 'date-fns'
 
 const PenaltiesPublicPage = () => {
     const { penalties, loading, error } = useFetchPenalties()
@@ -25,6 +26,10 @@ const PenaltiesPublicPage = () => {
             setWorkerNames(workerNameMap)
         }
     }, [workers])
+
+    const formatScanTime = (scanTime: string) => {
+        return format(new Date(scanTime), 'dd MMM yyyy, HH:mm');
+    };
 
     if (loading || workersLoading) {
         return <div className={styles.loading}>Loading...</div>
@@ -56,7 +61,7 @@ const PenaltiesPublicPage = () => {
                                     <td>{workerNames[penalty.worker_id] || 'Loading...'}</td> {/* Display worker's name */}
                                     <td>{penalty.description}</td>
                                     <td>{penalty.amount} so'm</td>
-                                    <td>{penalty.time}</td>
+                                    <td>{formatScanTime(penalty.time)}</td>
                                 </tr>
                             ))}
                         </tbody>
