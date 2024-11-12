@@ -92,14 +92,17 @@ const HistoriesPage = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {histories.map((history) => (
-                            <tr key={history.worker_id}>
-                                <td>{workerNames[history.worker_id] || 'Loading...'}</td>
-                                <td>{history.qr_code_text}</td>
-                                <td>{history.work_place_name}</td>
-                                <td>{formatScanTime(history.scan_time)}</td>
-                            </tr>
-                        ))}
+                        {histories
+                            .slice()
+                            .sort((a, b) => new Date(b.scan_time).getTime() - new Date(a.scan_time).getTime())
+                            .map((history) => (
+                                <tr key={history.worker_id}>
+                                    <td>{workerNames[history.worker_id] || 'Loading...'}</td>
+                                    <td>{history.qr_code_text}</td>
+                                    <td>{history.work_place_name}</td>
+                                    <td>{formatScanTime(history.scan_time)}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             )}
